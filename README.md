@@ -7,7 +7,7 @@ This project is part of the "Build a Machine Learning Web App with Streamlit and
 ## 📺 Demo
 
 ![App Screenshot](screenshot.png)
-*(Note: You can replace this line with an actual screenshot of your app, or delete it if you don't have one)*
+
 
 ## ✨ Features
 
