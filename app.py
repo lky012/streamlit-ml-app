@@ -6,7 +6,6 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split
-# FIX 1: New imports for plotting
 from sklearn.metrics import ConfusionMatrixDisplay, RocCurveDisplay, PrecisionRecallDisplay
 from sklearn.metrics import precision_score, recall_score 
 
@@ -32,7 +31,6 @@ def main():
         x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.3, random_state=0)
         return x_train, x_test, y_train, y_test
     
-    # FIX 1: Updated plotting functions to use the new Scikit-learn API
     def plot_metrics(metrics_list):
         if 'Confusion Matrix' in metrics_list:
             st.subheader("Confusion Matrix")
@@ -52,7 +50,7 @@ def main():
     df = load_data()
     x_train, x_test, y_train, y_test = split(df)
 
-    # FIX 2: Create copies to ensure data is writeable (fixes "read-only" error)
+    # Create copies to ensure data is writeable
     x_train = x_train.copy()
     x_test = x_test.copy()
     y_train = y_train.copy()
@@ -76,9 +74,11 @@ def main():
             model.fit(x_train, y_train)
             accuracy = model.score(x_test, y_test)
             y_pred = model.predict(x_test)
-            st.write("Accuracy: ", accuracy.round(2))
-            st.write("Precision: ", precision_score(y_test, y_pred, labels=class_names).round(2))
-            st.write("Recall: ", recall_score(y_test, y_pred, labels=class_names).round(2))
+            
+            # FIX: Use round(val, 2) instead of val.round(2)
+            st.write("Accuracy: ", round(accuracy, 2))
+            st.write("Precision: ", round(precision_score(y_test, y_pred, labels=class_names), 2))
+            st.write("Recall: ", round(recall_score(y_test, y_pred, labels=class_names), 2))
             plot_metrics(metrics)
 
     if classifier == 'Logistic Regression':
@@ -94,34 +94,34 @@ def main():
             model.fit(x_train, y_train)
             accuracy = model.score(x_test, y_test)
             y_pred = model.predict(x_test)
-            st.write("Accuracy: ", accuracy.round(2))
-            st.write("Precision: ", precision_score(y_test, y_pred, labels=class_names).round(2))
-            st.write("Recall: ", recall_score(y_test, y_pred, labels=class_names).round(2))
+            
+            # FIX: Use round(val, 2) instead of val.round(2)
+            st.write("Accuracy: ", round(accuracy, 2))
+            st.write("Precision: ", round(precision_score(y_test, y_pred, labels=class_names), 2))
+            st.write("Recall: ", round(recall_score(y_test, y_pred, labels=class_names), 2))
             plot_metrics(metrics)
-
 
     if classifier == 'Random Forest':
         st.sidebar.subheader("Model Hyperparameters")
         n_estimators = st.sidebar.number_input("The number of trees in the forest", 100, 5000, step=10, key='n_estimators')
         max_depth = st.sidebar.number_input("The maximum depth of the tree", 1, 20, step=1, key='max_depth')
         bootstrap_val = st.sidebar.radio("Bootstrap samples when building trees", ('True', 'False'), key='bootstrap')
-        # Convert string to boolean
         bootstrap = True if bootstrap_val == 'True' else False
 
         metrics = st.sidebar.multiselect("What metrics to plot?", ('Confusion Matrix', 'ROC Curve', 'Precision-Recall Curve'))
 
         if st.sidebar.button("Classify", key='classify'):
             st.subheader("Random Forest Results")
-            # FIX 3: Removed n_jobs=-1 to prevent browser crash
             model = RandomForestClassifier(n_estimators=n_estimators, max_depth=max_depth, bootstrap=bootstrap, n_jobs=None)
             model.fit(x_train, y_train)
             accuracy = model.score(x_test, y_test)
             y_pred = model.predict(x_test)
-            st.write("Accuracy: ", accuracy.round(2))
-            st.write("Precision: ", precision_score(y_test, y_pred, labels=class_names).round(2))
-            st.write("Recall: ", recall_score(y_test, y_pred, labels=class_names).round(2))
+            
+            # FIX: Use round(val, 2) instead of val.round(2)
+            st.write("Accuracy: ", round(accuracy, 2))
+            st.write("Precision: ", round(precision_score(y_test, y_pred, labels=class_names), 2))
+            st.write("Recall: ", round(recall_score(y_test, y_pred, labels=class_names), 2))
             plot_metrics(metrics)
-
 
     if st.sidebar.checkbox("Show raw data", False):
         st.subheader("Mushroom Data Set (Classification)")
