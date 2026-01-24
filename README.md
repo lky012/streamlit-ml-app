@@ -25,5 +25,5 @@ This project is part of the "Build a Machine Learning Web App with Streamlit and
 
 1. **Clone the repository:**
    ```bash
-   git clone [https://github.com/your-username/your-repo-name.git](https://github.com/your-username/your-repo-name.git)
-   cd your-repo-name
+   git clone [https://github.com/lky012/streamlit-ml-app.git](https://github.com/lky012/streamlit-ml-app.git)
+   cd streamlit-ml-app
