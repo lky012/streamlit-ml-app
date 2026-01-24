@@ -6,7 +6,8 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import plot_confusion_matrix, plot_roc_curve, plot_precision_recall_curve
+# UPDATED IMPORTS HERE:
+from sklearn.metrics import ConfusionMatrixDisplay, RocCurveDisplay, PrecisionRecallDisplay
 from sklearn.metrics import precision_score, recall_score 
 
 def main():
@@ -31,20 +32,24 @@ def main():
         x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.3, random_state=0)
         return x_train, x_test, y_train, y_test
     
+    # UPDATED PLOTTING FUNCTION
     def plot_metrics(metrics_list):
         if 'Confusion Matrix' in metrics_list:
             st.subheader("Confusion Matrix")
-            plot_confusion_matrix(model, x_test, y_test, display_labels=class_names)
+            # New API: from_estimator
+            ConfusionMatrixDisplay.from_estimator(model, x_test, y_test, display_labels=class_names)
             st.pyplot()
         
         if 'ROC Curve' in metrics_list:
             st.subheader("ROC Curve")
-            plot_roc_curve(model, x_test, y_test)
+            # New API: from_estimator
+            RocCurveDisplay.from_estimator(model, x_test, y_test)
             st.pyplot()
 
         if 'Precision-Recall Curve' in metrics_list:
             st.subheader("Precision-Recall Curve")
-            plot_precision_recall_curve(model, x_test, y_test)
+            # New API: from_estimator
+            PrecisionRecallDisplay.from_estimator(model, x_test, y_test)
             st.pyplot()
 
     df = load_data()
@@ -90,7 +95,6 @@ def main():
             st.write("Recall: ", recall_score(y_test, y_pred, labels=class_names).round(2))
             plot_metrics(metrics)
 
-
     if classifier == 'Random Forest':
         st.sidebar.subheader("Model Hyperparameters")
         n_estimators = st.sidebar.number_input("The number of trees in the forest", 100, 5000, step=10, key='n_estimators')
@@ -117,6 +121,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-
-
