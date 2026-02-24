@@ -4,10 +4,6 @@ A Machine Learning Web Application built with Python and Streamlit to predict wh
 
 This project is part of the "Build a Machine Learning Web App with Streamlit and Python" project on Coursera.
 
-## 📺 Demo
-
-![App Screenshot](screenshot.png)
-
 
 ## ✨ Features
 
